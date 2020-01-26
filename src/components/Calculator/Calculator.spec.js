@@ -110,6 +110,76 @@ describe("Calculator", () => {
       expect(wrapper.state("storedValue")).toEqual("5");
     });
   });
+
+  describe("callOperator", () => {
+    let wrapper;
+
+    beforeEach(() => (wrapper = shallow(<Calculator />)));
+
+    it("updates displayValue to the sum of storedValue and displayValue", () => {
+      wrapper.setState({ storedValue: "3" });
+      wrapper.setState({ displayValue: "2" });
+      wrapper.setState({ selectedOperator: "+" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("5");
+    });
+
+    it("updates displayValue to the difference of storedValue and displayValue", () => {
+      wrapper.setState({ storedValue: "3" });
+      wrapper.setState({ displayValue: "2" });
+      wrapper.setState({ selectedOperator: "-" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("1");
+    });
+
+    it("updates displayValue to the product of storedValue and displayValue", () => {
+      wrapper.setState({ storedValue: "3" });
+      wrapper.setState({ displayValue: "2" });
+      wrapper.setState({ selectedOperator: "x" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("6");
+    });
+
+    it("updates displayValue to the quotient of storedValue and displayValue", () => {
+      wrapper.setState({ storedValue: "3" });
+      wrapper.setState({ displayValue: "2" });
+      wrapper.setState({ selectedOperator: "/" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("1.5");
+    });
+
+    it("updates displayValue to '0' if operation results in 'NaN'", () => {
+      wrapper.setState({ storedValue: "3" });
+      wrapper.setState({ displayValue: "string" });
+      wrapper.setState({ selectedOperator: "/" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("0");
+    });
+
+    it("updates displayValue to '0' if operation results in 'Infinity'", () => {
+      wrapper.setState({ storedValue: "7" });
+      wrapper.setState({ displayValue: "0" });
+      wrapper.setState({ selectedOperator: "/" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("0");
+    });
+
+    it("updates displayValue to '0' if selectedOperator doesn't match cases", () => {
+      wrapper.setState({ storedValue: "7" });
+      wrapper.setState({ displayValue: "10" });
+      wrapper.setState({ selectedOperator: "string" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("0");
+    });
+
+    it("updates displayValue to '0' if called with no value for storedValue ro selectedOperator", () => {
+      wrapper.setState({ storedValue: "" });
+      wrapper.setState({ displayValue: "10" });
+      wrapper.setState({ selectedOperator: "" });
+      wrapper.instance().callOperator();
+      expect(wrapper.state("displayValue")).toEqual("0");
+    });
+  });
 });
 
 describe("mounted Calculator", () => {
