@@ -10,21 +10,21 @@ const Keypad = ({
   setOperator,
   updateDisplay
 }) => {
-  const numberKeys = numbers.map(number => (
+  const numberKeys = numbers.map((number, iterator) => (
     <Key
-      key={number}
-      keyAction={updateDisplay}
+      key={`${number}${iterator}`}
       keyType="number-key"
       keyValue={number}
+      keyAction={updateDisplay}
     />
   ));
 
-  const operatorKeys = operators.map(operator => (
+  const operatorKeys = operators.map((operator, iterator) => (
     <Key
-      key={operator}
-      keyAction={setOperator}
+      key={`${operator}${iterator}`}
       keyType="operator-key"
       keyValue={operator}
+      keyAction={setOperator}
     />
   ));
 

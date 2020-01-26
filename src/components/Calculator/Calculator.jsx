@@ -25,21 +25,37 @@ class Calculator extends Component {
     console.log("set operation");
   };
 
-  updateDisplay = () => {
-    console.log("update display");
+  updateDisplay = value => {
+    let { displayValue } = this.state;
+
+    // prevent multiple occurences of '.'
+    if (value === "." && displayValue.includes(".")) value = "";
+
+    if (value === "ce") {
+      // deletes last char in displayValue
+      displayValue = displayValue.substr(0, displayValue.length - 1);
+      // set displayValue to '0' if displayValue is empty string
+      if (displayValue === "") displayValue = "0";
+    } else {
+      // replace displayValue with value if displayValue equal to '0'
+      // else concatenate displayValue and value
+      displayValue === "0" ? (displayValue = value) : (displayValue += value);
+    }
+
+    this.setState({ displayValue });
   };
 
   render = () => {
     // unpack the component state by using Object Destructuring
-    const { displayValue } = this.state;
+    const { displayValue, numbers, operators } = this.state;
 
     return (
       <div className="calculator-container">
         <Display displayValue={displayValue} />
         <Keypad
           callOperator={this.callOperator}
-          numbers={this.numbers}
-          operators={this.operators}
+          numbers={numbers}
+          operators={operators}
           setOperator={this.setOperator}
           updateDisplay={this.updateDisplay}
         />

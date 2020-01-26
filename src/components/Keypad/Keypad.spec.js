@@ -17,15 +17,15 @@ describe("Keypad", () => {
     );
   });
 
-  it("renders the values of numbers", () => {
-    wrapper.setProps({ numbers: ["0", "1", "2"] });
-    expect(wrapper.find(".numbers-container").text()).toEqual("012");
-  });
+  // it("renders the values of numbers", () => {
+  //   wrapper.setProps({ numbers: ["0", "1", "2"] });
+  //   expect(wrapper.find(".numbers-container").text()).toEqual("012");
+  // });
 
-  it("renders the values of operators", () => {
-    wrapper.setProps({ operators: ["+", "-", "*", "/"] });
-    expect(wrapper.find(".operators-container").text()).toEqual("+-*/");
-  });
+  // it("renders the values of operators", () => {
+  //   wrapper.setProps({ operators: ["+", "-", "*", "/"] });
+  //   expect(wrapper.find(".operators-container").text()).toEqual("+-*/");
+  // });
 
   it("should render an instance of the Key component for each index of numbers, operators, and the submit Key", () => {
     const numbers = ["0", "1", "2"];
@@ -56,6 +56,8 @@ describe("mounted Keypad", () => {
     );
   });
 
+  it("should render correctly", () => expect(wrapper).toMatchSnapshot());
+
   it("renders the values of numbers to the DOM", () => {
     wrapper.setProps({ numbers: ["0", "1", "2"] });
     expect(wrapper.find(".numbers-container").text()).toEqual("012");
@@ -65,6 +67,4 @@ describe("mounted Keypad", () => {
     wrapper.setProps({ operators: ["+", "-", "*", "/"] });
     expect(wrapper.find(".operators-container").text()).toEqual("+-*/");
   });
-
-  it("should render correctly", () => expect(wrapper).toMatchSnapshot());
 });

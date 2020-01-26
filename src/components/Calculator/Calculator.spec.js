@@ -21,13 +21,61 @@ describe("Calculator", () => {
         <Display displayValue={wrapper.instance().state.displayValue} />,
         <Keypad
           callOperator={wrapper.instance().callOperator}
-          numbers={wrapper.instance().numbers}
-          operators={wrapper.instance().operators}
+          numbers={wrapper.instance().state.numbers}
+          operators={wrapper.instance().state.operators}
           setOperator={wrapper.instance().setOperator}
           updateDisplay={wrapper.instance().updateDisplay}
         />
       ])
     ).toEqual(true);
+  });
+
+  describe("updateDisplay", () => {
+    let wrapper;
+
+    beforeEach(() => (wrapper = shallow(<Calculator />)));
+
+    it("updates displayValue", () => {
+      wrapper.instance().updateDisplay("5");
+      expect(wrapper.state("displayValue")).toEqual("5");
+    });
+
+    it("concatenates displayValue", () => {
+      wrapper.instance().updateDisplay("5");
+      wrapper.instance().updateDisplay("0");
+      expect(wrapper.state("displayValue")).toEqual("50");
+    });
+
+    it("removes leading '0'from displayValue", () => {
+      wrapper.instance().updateDisplay("0");
+      expect(wrapper.state("displayValue")).toEqual("0");
+      wrapper.instance().updateDisplay("5");
+      expect(wrapper.state("displayValue")).toEqual("5");
+    });
+
+    it("prevents multiple leading '0's from displayValue", () => {
+      wrapper.instance().updateDisplay("0");
+      wrapper.instance().updateDisplay("0");
+      expect(wrapper.state("displayValue")).toEqual("0");
+    });
+
+    it("removes last char of displayValue", () => {
+      wrapper.instance().updateDisplay("5");
+      wrapper.instance().updateDisplay("0");
+      wrapper.instance().updateDisplay("ce");
+      expect(wrapper.state("displayValue")).toEqual("5");
+    });
+
+    it("prevents multiple instances of '.' in displayValue", () => {
+      wrapper.instance().updateDisplay(".");
+      wrapper.instance().updateDisplay(".");
+      expect(wrapper.state("displayValue")).toEqual(".");
+    });
+
+    it("will set displayValue to '0' if displayValue is equal to an empty string", () => {
+      wrapper.instance().updateDisplay("ce");
+      expect(wrapper.state("displayValue")).toEqual("0");
+    });
   });
 });
 
