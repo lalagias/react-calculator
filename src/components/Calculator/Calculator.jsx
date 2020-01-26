@@ -21,8 +21,24 @@ class Calculator extends Component {
     console.log("call operation");
   };
 
-  setOperator = () => {
-    console.log("set operation");
+  setOperator = value => {
+    let { displayValue, selectedOperator, storedValue } = this.state;
+
+    // check if a value is already present for selectedOperator
+    if (selectedOperator === "") {
+      // update storedValue to the of value of displayValue
+      storedValue = displayValue;
+      // reset the value of displayValure to '0'
+      displayValue = "0";
+      // update the value of selectedOperator to the given value
+      selectedOperator = value;
+    } else {
+      // if selectedOperator is not an empty string
+      // update the value of selectedOperator to the given value
+      selectedOperator = value;
+    }
+
+    this.setState({ displayValue, selectedOperator, storedValue });
   };
 
   updateDisplay = value => {
